@@ -22,7 +22,6 @@ function Login() {
               <Button variant='contained'>Login</Button>
               <Button variant='contained' color='secondary'>Register</Button>
             </CardActions>
-            
         </Card>
       </Box>
       </center>
