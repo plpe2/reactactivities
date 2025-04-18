@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import NavBar from './NavBar'
+import '../styles/App.css'
+import '../styles/Register.css'
 import { Box, Button, Card, CardActions, CardContent, TextField, Typography } from '@mui/material'
 
 function Register() {
@@ -18,7 +20,6 @@ function Register() {
   return (
     <div>
       <NavBar />
-      <br/><br/>
       <center>
         <Box width="500px">
           <Card>
@@ -29,7 +30,7 @@ function Register() {
                   <TextField label="Email" id="outlined-basic" variant="outlined" onChange={(e) => setValues({...values, email: e.target.value})}/><br/><br/>
                   <TextField label="Password" id="outlined-basic" variant="outlined" onChange={(e) => setValues({...values, password: e.target.value})}/>
               </CardContent>
-              <CardActions>
+              <CardActions className='Actionbuttons'>
                 <Button type='submit' variant='contained' color='secondary'>Register</Button>
               </CardActions>
               </form>
