@@ -1,7 +1,7 @@
-import { AppBar, Button, IconButton, Stack, Toolbar, Box } from '@mui/material'
+import { AppBar, Button, Stack, Toolbar, Box } from '@mui/material'
 import { Link } from 'react-router-dom'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 
 function NavBar() {
@@ -18,6 +18,7 @@ function NavBar() {
   return (
     <AppBar position='static' color='info' sx={navStyle}>
       <Toolbar>
+      
       <Button variant='contained' onClick={toggleSidebar}>{sideBar ? '=' : '=>'}</Button>
       <Link to="/"><Button variant="contained" size="large" startIcon={<ShoppingCartIcon />}>Add2Cart</Button></Link>
 

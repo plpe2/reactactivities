@@ -19,7 +19,6 @@ function Register() {
   }
   return (
     <div>
-      <NavBar />
       <center>
         <Box width="500px">
           <Card>
