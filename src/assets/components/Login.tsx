@@ -3,9 +3,6 @@ import NavBar from './NavBar'
 import '../styles/Login.css'
 import { Box, Button, Card, CardActions, CardContent, TextField, Typography } from '@mui/material'
 
-
-
-
 function Login() {
   const [labelEmail, setlabelEmail] = useState("Enter your Email")
   const [labelPassword, setlabelPassword] = useState("Enter your Password")
@@ -16,7 +13,6 @@ function Login() {
       <Box width="500px">
         <Card>
             <CardContent>
-              
                 <Typography gutterBottom variant='h4'>Login</Typography>
                 <TextField id="outlined-basic" label={labelEmail} variant="outlined" onFocus={(e) => {setlabelEmail('Email')}} onBlur={(e) => {setlabelEmail('Enter your Email')}}/><br/><br/>
                 <TextField id="outlined-basic" label={labelPassword} variant="outlined" onFocus={(e) => {setlabelPassword('Password')}} onBlur={(e) => {setlabelPassword('Enter your Password')}}/>
