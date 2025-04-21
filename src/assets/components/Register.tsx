@@ -2,62 +2,75 @@ import React, { useState } from 'react'
 import NavBar from './NavBar'
 import '../styles/App.css'
 import '../styles/Register.css'
-import { Box, Button, Card, CardActions, CardContent, MenuItem, TextField, Typography } from '@mui/material'
+import { Box, Button, Card, CardActions, CardContent, MenuItem, Select, TextField, Typography } from '@mui/material'
 import { Luzon, Visayas, Mindanao } from './Zipcodes'
 
 function Register() {
   const [label, setLabel] = useState("Email")
   const [province, setProvince] = useState("")
+  const [city, setCity] = useState("")
   const [values, setValues] = useState({
     name: "",
     email: "",
-    password: ""
+    password: "",
+    province: "",
+    city: "",
   })
 
-  const handleProvince = (e: React.ChangeEvent<HTMLInputElement>) =>{
-    setProvince(e.target.value as string)
+  const handleProvince = (e : React.ChangeEvent<HTMLInputElement>) =>{
+    setProvince(e.target.value)
+    setValues({...values, province : e.target.value})
   }
 
-  const handleCities = () =>{
-    if(province === "Luzon"){
-      return (
-        <>
-          {Luzon.map((city) => {
-            return (
-              <>
-                <MenuItem value={city.zipCode}>{city.city}</MenuItem>
-              </>
-            )
-          })}
-        </>
-      )
-    }else if(province === "Visayas"){
-      return (
-        <>
-          {Visayas.map((city) => {
-            return (
-              <>
-                <MenuItem value={city.zipCode}>{city.city}</MenuItem>
-              </>
-            )
-          })}
-        </>
-      )
-    }else if(province === "Mindanao"){
-      return (
-        <>
-          {Mindanao.map((city) => {
-            return (
-              <>
-                <MenuItem value={city.zipCode}>{city.city}</MenuItem>
-              </>
-            )
-          })}
-        </>
-      )
+  
+  // Fix the handler to update state
+  const handleCity = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCity(e.target.value)
+    setValues({...values, city : e.target.value})
+  };
+
+
+  const handleCities = () => {
+    if (province === "Luzon") {
+      return Luzon.map((city, index) => (
+        <MenuItem key={index} value={city.city}>
+          {city.city}
+        </MenuItem>
+      ));
+    } else if (province === "Visayas") {
+      return Visayas.map((city, index) => (
+        <MenuItem key={index} value={city.city}>
+          {city.city}
+        </MenuItem>
+      ));
+    } else if (province === "Mindanao") {
+      return Mindanao.map((city,index) => (
+        <MenuItem key={index} value={city.city}>
+          {city.city}
+        </MenuItem>
+      ));
+    } else {
+      return null; // fallback
     }
   }
-
+  
+  const citySelects = () => (
+    <TextField
+      select
+      label={province === "" ? "Select Province first" : "Select City"}
+      sx={{ width: "230px" }}
+      disabled={province === ""}
+      value={city}
+      onChange={handleCity}
+    >
+      {province === "" ? (
+        <MenuItem></MenuItem>
+      ) : (
+        handleCities()
+      )}
+    </TextField>
+  )
+  
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) =>{
     e.preventDefault()
     setTimeout(() => {
@@ -75,14 +88,18 @@ function Register() {
                   <TextField label="Name" id="outlined-basic" variant="outlined" onChange={(e) => setValues({...values, name: e.target.value})}/><br/><br/>
                   <TextField label="Email" id="outlined-basic" variant="outlined" onChange={(e) => setValues({...values, email: e.target.value})}/><br/><br/>
                   <TextField label="Password" id="outlined-basic" variant="outlined" onChange={(e) => setValues({...values, password: e.target.value})}/><br/><br/>
-                  <TextField label="Select Province" select onChange={handleProvince} sx={{width: "230px"}} >
+                  <TextField
+                    select
+                    label="Select Province"
+                    value={province}
+                    onChange={handleProvince}
+                    sx={{ width: "230px" }}
+                  >
                     <MenuItem value="Luzon">Luzon</MenuItem>
                     <MenuItem value="Visayas">Visayas</MenuItem>
                     <MenuItem value="Mindanao">Mindanao</MenuItem>
                   </TextField><br/><br/>
-                  <TextField select label="Select Address" sx={{width: "230px"}}>
-                  {handleCities()}
-                  </TextField>
+                  {citySelects()}
               </CardContent>
               <CardActions className='Actionbuttons'>
                 <Button type='submit' variant='contained' color='secondary'>Register</Button>
