@@ -32,6 +32,22 @@ app.post("/register/user-create", (req, res) => {
     });
 });
 
+app.post("/login", (req, res) =>{
+    const sql = "SELECT * FROM `user-accounts` WHERE `name` = ? AND `password` = ?"
+    const values = [
+        req.body.name,
+        req.body.password
+    ]
+    db.query(sql, values, (err, result) =>{
+        if (err) return res.json({message : "Error Login"})
+        if(result.length > 0){
+            return res.json("Login Successfully")
+        }else{
+            return res.json("No Record")
+        }
+    })
+})
+
 const port = 5000
 
 app.listen(port, () => {
