@@ -4,6 +4,7 @@ import '../styles/App.css'
 import '../styles/Register.css'
 import { Box, Button, Card, CardActions, CardContent, MenuItem, Select, TextField, Typography } from '@mui/material'
 import { Luzon, Visayas, Mindanao } from './Zipcodes'
+import axios from 'axios'
 
 function Register() {
   const [label, setLabel] = useState("Email")
@@ -66,9 +67,11 @@ function Register() {
   
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) =>{
     e.preventDefault()
-    setTimeout(() => {
-      console.log("Submitted values:", values)
-    }, 0)
+    
+    axios.post("/register/user-create", values)
+    .then((res) => {
+      console.log(res)
+    })
   }
   return (
     <div>
