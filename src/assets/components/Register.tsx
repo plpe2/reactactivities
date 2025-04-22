@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import NavBar from './NavBar'
 import '../styles/App.css'
 import '../styles/Register.css'
@@ -9,6 +9,8 @@ function Register() {
   const [label, setLabel] = useState("Email")
   const [province, setProvince] = useState("")
   const [city, setCity] = useState("")
+  const [cityOptions, setCityOptions] = useState<string[]>([])
+
   const [values, setValues] = useState({
     name: "",
     email: "",
@@ -29,30 +31,21 @@ function Register() {
     setValues({...values, city : e.target.value})
   };
 
-
-  const handleCities = () => {
-    if (province === "Luzon") {
-      return Luzon.map((city, index) => (
-        <MenuItem key={index} value={city.city}>
-          {city.city}
-        </MenuItem>
-      ));
-    } else if (province === "Visayas") {
-      return Visayas.map((city, index) => (
-        <MenuItem key={index} value={city.city}>
-          {city.city}
-        </MenuItem>
-      ));
-    } else if (province === "Mindanao") {
-      return Mindanao.map((city,index) => (
-        <MenuItem key={index} value={city.city}>
-          {city.city}
-        </MenuItem>
-      ));
-    } else {
-      return null; // fallback
+  useEffect(() => {
+    switch (province) {
+      case "Luzon":
+        setCityOptions(Luzon.map(city => city.city))
+        break
+      case "Visayas":
+        setCityOptions(Visayas.map(city => city.city))
+        break
+      case "Mindanao":
+        setCityOptions(Mindanao.map(city => city.city))
+        break
+      default:
+        setCityOptions([])
     }
-  }
+  }, [province])
   
   const citySelects = () => (
     <TextField
@@ -63,11 +56,11 @@ function Register() {
       value={city}
       onChange={handleCity}
     >
-      {province === "" ? (
-        <MenuItem></MenuItem>
-      ) : (
-        handleCities()
-      )}
+      {cityOptions.map((cityName, index) => (
+        <MenuItem key={index} value={cityName}>
+          {cityName}
+        </MenuItem>
+      ))}
     </TextField>
   )
   
