@@ -48,6 +48,32 @@ app.post("/login", (req, res) =>{
     })
 })
 
+app.post("/search-results/:val", (req, res) =>{
+    const sql = "SELECT * FROM `user-accounts` WHERE name LIKE CONCAT('%', ?, '%')"
+
+    db.query(sql,req.params.val, (err, result) =>{
+        if (err) return ({message : "Error fetching Search Results"})
+        return res.json(result)
+    })
+})
+
+app.post("/user-profile/:id", (req, res) =>{
+    const sql = "SELECT * FROM `user-accounts` WHERE `id` = ?"
+
+    db.query(sql,req.params.id, (err, result) =>{
+        if (err) return ({message : "Error fetching Search Results"})
+        return res.json(result)
+    })
+})
+
+app.delete("/delete-user/:id", (req, res) =>{
+    const sql = "DELETE FROM `user-accounts` WHERE `id` = ?"
+    db.query(sql, req.params.id, (err, result) => {
+        if (err) return res.json({message : "Error Deleting User"})
+        return res.json({success : "Successfully Deleted the User"})
+    })
+})
+
 const port = 5000
 
 app.listen(port, () => {
