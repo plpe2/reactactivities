@@ -1,9 +1,9 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 function Dashboard() {
   return (
-    <Box width="90%" sx={{backgroundColor: "red",marginLeft: "5%", padding: "1%"}}>
-        <h1>Dashboard</h1>
+    <Box width="90%" sx={{marginLeft: "5%", padding: "1%"}}>
+        <Typography variant="h5" color="initial">Dashboard</Typography>
     </Box>
   )
 }

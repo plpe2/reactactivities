@@ -1,7 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Dashboard from './assets/components/Dashboard';
-import Login from './assets/components/Login';
-import Register from './assets/components/Register';
 import NavBar from './assets/components/NavBar';
 import SearchResult from './assets/components/SearchResult';
 import UserProfile from './assets/components/UserProfile';
@@ -13,7 +11,7 @@ import Sidebar from './assets/components/Sidebar';
 function App() {
   return (
       <BrowserRouter>
-        <Box sx={{ display: 'flex', position: "relative" }}>
+        <Box sx={{ display: 'flex', position: "relative", backgroundColor: "#F0F4FF", height: "100%" }}>
           <Sidebar />
           <Box sx={{ flexGrow: 1, p: 0 }}>
           <NavBar />

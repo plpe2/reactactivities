@@ -39,7 +39,7 @@ function SearchResult() {
         <Typography variant="h5" color="initial">Search Results</Typography>
         {searchResults.map(users => (
         <div key={users.id}>
-            <Stack sx={{padding: "50px", backgroundColor: "red", margin: "10px"}} spacing={2}>
+            <Stack sx={{padding: "50px", backgroundColor: "#DAE3FF", margin: "10px"}} spacing={2}>
             <Stack key={users.id}>
                 <Typography>{users.name}</Typography>
                 
