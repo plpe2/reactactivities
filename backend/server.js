@@ -35,7 +35,7 @@ app.post("/register/user-create", (req, res) => {
 app.post("/login", (req, res) =>{
     const sql = "SELECT * FROM `user-accounts` WHERE `name` = ? AND `password` = ?"
     const values = [
-        req.body.name,
+        req.body.email,
         req.body.password
     ]
     db.query(sql, values, (err, result) =>{

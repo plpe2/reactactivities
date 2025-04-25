@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import NavBar from './NavBar'
-import '../styles/App.css'
 import '../styles/Register.css'
 import { Box, Button, Card, CardActions, CardContent, MenuItem, Select, TextField, Typography } from '@mui/material'
 import { Luzon, Visayas, Mindanao } from './Zipcodes'

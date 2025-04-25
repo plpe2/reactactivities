@@ -13,16 +13,27 @@ function NavBar() {
     cpassword: string
   }
 
+  type LoginValues = {
+    email: string,
+    password: string
+  }
+
   const [sideBar, setSideBar] = useState(false)
   const [searchshow, setSearchShow] = useState(false)
   const [searchvalue, setSearchValue] = useState("")
   const [openRegister, setOpenRegister] = useState(false)
+  const [openLogin, setOpenLogin] = useState(false)
 
   const [values, setValues] = useState<User>({
     name: "",
     email: "",
     password: "",
     cpassword: ""
+  })
+
+  const [loginValues, setLoginValues] = useState<LoginValues>({
+    email: "",
+    password: ""
   })
 
   const toggleSidebar = () =>{
@@ -36,6 +47,14 @@ function NavBar() {
   const handleSearchSubmit = (e : React.FormEvent<HTMLFormElement>) =>{
     e.preventDefault()
     console.log(searchvalue)
+  }
+
+  const handleLoginSubmit = (e : React.FormEvent<HTMLFormElement>) =>{
+    e.preventDefault()
+    axios.post("/login", loginValues)
+    .then((res) =>{
+      console.log(res)
+    })
   }
 
   const handleRegisterSubmit = (e : React.FormEvent<HTMLFormElement>) =>{
@@ -69,16 +88,36 @@ function NavBar() {
       </form>
       </Stack>
       <Stack direction="row" spacing={2} className="Navbar">
-        <Link to="/login">
-          <Button variant='contained'>
-            Login
-          </Button>
-        </Link>
+        <Button variant='contained' onClick={() => setOpenLogin(true)}>
+          Login
+        </Button>
         <Button variant='contained' color='success' onClick={() => setOpenRegister(true)}>
           Register
         </Button>
 
-        <Dialog open={openRegister} sx={{width: "100%"}} aria-labelledby='register-dialog'>
+        <Dialog open={openLogin} onClose={() => setOpenLogin(false)} aria-labelledby='login-dialog'>
+          <DialogTitle>
+            Login
+          </DialogTitle>
+          <form onSubmit={handleLoginSubmit}>
+          <DialogContent>
+            <DialogContentText></DialogContentText>
+            <Stack spacing={2}>
+              <TextField onChange={(e) => setLoginValues({...loginValues, email: e.target.value})} label="Email Address"/>
+              <TextField onChange={(e) => setLoginValues({...loginValues, password: e.target.value})} label="Password"/>
+            </Stack>
+          </DialogContent>
+          <DialogActions>
+            <Button color="error" variant='contained' onClick={() => setOpenLogin(false)} >
+              Cancel
+            </Button>
+            <Button type='submit' variant='contained' onClick={() => setOpenLogin(false)} >
+              Login
+            </Button>
+          </DialogActions>
+          </form>
+        </Dialog>
+        <Dialog open={openRegister} sx={{width: "100%"}} onClose={() => setOpenRegister(false)} aria-labelledby='register-dialog'>
           <DialogTitle>Registration</DialogTitle>
           <DialogContentText></DialogContentText>
           <form onSubmit={handleRegisterSubmit}>
@@ -91,16 +130,16 @@ function NavBar() {
             </Stack>
           </DialogContent>
           <DialogActions>
-            <Button variant="contained" color="success" type='submit'>
-              Register
-            </Button>
             <Button variant="contained" color="error" onClick={() => setOpenRegister(false)}>
               Cancel
+            </Button>
+            <Button variant="contained" color="success" type='submit'>
+              Register
             </Button>
           </DialogActions>
           </form>
         </Dialog>
-        {/* <Link to="/register"><Button variant='contained'>Register</Button></Link> */}
+
       </Stack>
       </Toolbar>
     </AppBar>
