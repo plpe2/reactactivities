@@ -67,7 +67,7 @@ function ViewUsers() {
                         }
                     }>
                         Delete Profile
-                    </Button>
+                </Button>
             </Stack>         
             </Stack>
         </div >
