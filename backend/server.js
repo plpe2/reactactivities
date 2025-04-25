@@ -57,6 +57,14 @@ app.post("/search-results/:val", (req, res) =>{
     })
 })
 
+app.post("/view-users", (req, res) =>{
+    const sql = "SELECT * FROM `user-accounts`"
+    db.query(sql, (err, result) => {
+        if (err) return res.json({message : "Error Fetching all users"})
+        return res.json(result)
+    })
+})
+
 app.post("/user-profile/:id", (req, res) =>{
     const sql = "SELECT * FROM `user-accounts` WHERE `id` = ?"
 

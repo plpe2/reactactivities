@@ -73,8 +73,6 @@ function NavBar() {
   return (
     <AppBar position='static' color='info' sx={navStyle}>
       <Toolbar>
-        {searchvalue}
-      <Button variant='contained' onClick={toggleSidebar}>{sideBar ? '=' : '=>'}</Button>
       <Link to="/"><Button variant="contained" size="large" startIcon={<ShoppingCartIcon />}>Add2Cart</Button></Link>
       <Box sx={{ flexGrow: 1 }} />
       <Stack direction='row' height="50px">
