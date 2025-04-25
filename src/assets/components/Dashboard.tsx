@@ -1,8 +1,10 @@
+import { Box } from "@mui/material";
+
 function Dashboard() {
   return (
-    <div>
+    <Box width="90%" sx={{backgroundColor: "red",marginLeft: "5%", padding: "1%"}}>
         <h1>Dashboard</h1>
-    </div>
+    </Box>
   )
 }
 

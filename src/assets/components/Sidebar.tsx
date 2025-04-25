@@ -7,10 +7,10 @@ import { Link } from 'react-router-dom';
 
 
 const Sidebar = () => {
-    const [drawerWidth, setDrawerWidth] = useState(240);
+    const [drawerWidth, setDrawerWidth] = useState(200);
 
     const handleSidebar = () => {
-        setDrawerWidth(prev => (prev === 240 ? 100 : 240));
+        setDrawerWidth(prev => (prev === 200 ? 100 : 200));
     }
   return (
     <Drawer
@@ -22,7 +22,7 @@ const Sidebar = () => {
       }}
     >
       <Toolbar>
-        <IconButton sx={{marginLeft: "80%", border: "1px solid black", position: "relative"}} onClick={handleSidebar}>
+        <IconButton sx={{marginLeft: "65%", border: "1px solid black", position: "relative"}} onClick={handleSidebar}>
             <ChevronRightIcon />
         </IconButton>
       </Toolbar>

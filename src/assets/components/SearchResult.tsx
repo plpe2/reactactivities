@@ -35,15 +35,16 @@ function SearchResult() {
     }
 
   return (
-    <Box width="50%" sx={{justifyContent: "center", marginLeft: "10%"}}>
+    <Box width="90%" sx={{justifyContent: "center", marginLeft: "5%", padding: "1%"}}>
+        <Typography variant="h5" color="initial">Search Results</Typography>
         {searchResults.map(users => (
         <div key={users.id}>
-            <Stack sx={{padding: "50px", backgroundColor: "red", margin: "10px"}}>
+            <Stack sx={{padding: "50px", backgroundColor: "red", margin: "10px"}} spacing={2}>
             <Stack key={users.id}>
                 <Typography>{users.name}</Typography>
                 
             </Stack>
-            <Stack direction="row">
+            <Stack direction="row" justifyContent="flex-end" spacing={2}>
                 <Button variant='contained' href={`/view-user/${users.id}`}>View Profile</Button>
                 <form onSubmit={DeleteUser}>
                     <Button type='submit' variant='contained' color='error' onClick={(e) => setDeleteId(users.id)}>Delete Profile</Button>

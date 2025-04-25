@@ -20,7 +20,8 @@ function ViewUsers() {
         })
     }, [])
   return (
-    <Box width="50%" sx={{justifyContent: "center", marginLeft: "10%"}}>
+    <Box width="90%" sx={{justifyContent: "center", marginLeft: "5%", padding: "1%"}}>
+        <Typography variant="h5" color="initial">View All Users</Typography>
         {results.map(users => (
         <div key={users.id}>
             <Stack sx={{padding: "50px", backgroundColor: "red", margin: "10px"}}>
@@ -28,7 +29,7 @@ function ViewUsers() {
                 <Typography>{users.name}</Typography>
                 
             </Stack>
-            <Stack direction="row">
+            <Stack direction="row" justifyContent="flex-end" spacing={2}>
                 <Button variant='contained' href={`/view-user/${users.id}`}>View Profile</Button>
                 <form>
                     <Button type='submit' variant='contained' color='error'>Delete Profile</Button>
