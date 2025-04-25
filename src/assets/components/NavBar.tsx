@@ -1,4 +1,4 @@
-import { AppBar, Button, Stack, Toolbar, Box, IconButton, TextField, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material'
+import { AppBar, Button, Stack, Toolbar, Box, IconButton, TextField, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, FormHelperText } from '@mui/material'
 import { Link } from 'react-router-dom'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import React, { useContext, useState } from 'react';
@@ -46,7 +46,7 @@ function NavBar() {
 
   const handleSearchSubmit = (e : React.FormEvent<HTMLFormElement>) =>{
     e.preventDefault()
-    console.log(searchvalue)
+    window.location.href = `/search-results/${searchvalue}`
   }
 
   const handleLoginSubmit = (e : React.FormEvent<HTMLFormElement>) =>{
@@ -75,17 +75,21 @@ function NavBar() {
       <Toolbar>
       <Link to="/"><Button variant="contained" size="large" startIcon={<ShoppingCartIcon />}>Add2Cart</Button></Link>
       <Box sx={{ flexGrow: 1 }} />
+
+      {/* Search bar */}
       <Stack direction='row' height="50px">
       <form onSubmit={handleSearchSubmit}>
-      <TextField size='small' onChange={(e) => setSearchValue(e.target.value)}>
-          Search 
-      </TextField>
-      <IconButton type='submit' aria-label="" sx={{backgroundColor: "white", marginRight: "20px"}} onClick={toggleSearch} href={`/search-results/${searchvalue}`}>
-        <SearchIcon/>
-      </IconButton>
+        <TextField size='small' onChange={(e) => setSearchValue(e.target.value)} required>
+            Search 
+        </TextField>
+        <IconButton type='submit' aria-label="" sx={{backgroundColor: "white", marginRight: "20px"}}>
+          <SearchIcon/>
+        </IconButton>
       </form>
       </Stack>
+
       <Stack direction="row" spacing={2} className="Navbar">
+        {/* Two buttons on right side*/}
         <Button variant='contained' onClick={() => setOpenLogin(true)}>
           Login
         </Button>
@@ -93,6 +97,7 @@ function NavBar() {
           Register
         </Button>
 
+        {/* Login Dialog */}
         <Dialog open={openLogin} onClose={() => setOpenLogin(false)} aria-labelledby='login-dialog'>
           <DialogTitle>
             Login
@@ -115,16 +120,18 @@ function NavBar() {
           </DialogActions>
           </form>
         </Dialog>
+
+        {/* Register Dialog */}
         <Dialog open={openRegister} sx={{width: "100%"}} onClose={() => setOpenRegister(false)} aria-labelledby='register-dialog'>
           <DialogTitle>Registration</DialogTitle>
           <DialogContentText></DialogContentText>
           <form onSubmit={handleRegisterSubmit}>
           <DialogContent >
             <Stack spacing={2}>
-              <TextField label="Full Name" onChange={(e) => setValues({ ...values, name: e.target.value})}/>
-              <TextField label="Email Address" onChange={(e) => setValues({ ...values, email: e.target.value})}/>
-              <TextField label="Password" onChange={(e) => setValues({ ...values, password: e.target.value})}/>
-              <TextField label="Confirm Password" onChange={(e) => setValues({ ...values, cpassword: e.target.value})}/>
+              <TextField label="Full Name" required onChange={(e) => setValues({ ...values, name: e.target.value})}/>
+              <TextField label="Email Address" required type='email' onChange={(e) => setValues({ ...values, email: e.target.value})}/>
+              <TextField label="Password" type='password' required onChange={(e) => setValues({ ...values, password: e.target.value})}/>
+              <TextField label="Confirm Password" type='password' required onChange={(e) => { setValues({ ...values, cpassword: e.target.value}) }}/>
             </Stack>
           </DialogContent>
           <DialogActions>
