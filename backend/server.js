@@ -74,6 +74,19 @@ app.post("/user-profile/:id", (req, res) =>{
     })
 })
 
+app.put("/update-user/:id", (req, res) =>{
+    const id = req.params.id
+    const sql = "UPDATE `user-accounts` SET `name` = ? WHERE `id` = ?"
+    const values = [
+        req.body.name,
+        id
+    ]
+    db.query(sql, values, (err, result) =>{
+        if (err) res.json({message : "Error Updating the user details"})
+        return res.json({success : "Successfully Update the user details"})
+    })
+})
+
 app.delete("/delete-user/:id", (req, res) =>{
     const sql = "DELETE FROM `user-accounts` WHERE `id` = ?"
     db.query(sql, req.params.id, (err, result) => {
