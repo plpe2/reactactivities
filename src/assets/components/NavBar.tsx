@@ -53,6 +53,8 @@ function NavBar() {
     password: "",
   });
 
+  const [showHelper, setShowHelper] = useState(false);
+
   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     window.location.href = `/search-results/${searchvalue}`;
@@ -127,7 +129,10 @@ function NavBar() {
           {/* Login Dialog */}
           <Dialog
             open={openLogin}
-            onClose={() => setOpenLogin(false)}
+            onClose={() => {
+              setOpenLogin(false)
+              setShowHelper(false)
+            }}
             aria-labelledby="login-dialog"
           >
             <DialogTitle>Login</DialogTitle>
@@ -136,9 +141,13 @@ function NavBar() {
                 <DialogContentText></DialogContentText>
                 <Stack spacing={2}>
                   <TextField
+                    onBlur={() => {if (!loginValues.email) {setShowHelper(true)}}}
+                    onFocus={() => {setShowHelper(false);}}
+                    helperText={showHelper ? "Email is required" : ''}
                     onChange={(e) =>
                       setLoginValues({ ...loginValues, email: e.target.value })
                     }
+                    error={showHelper}
                     label="Email Address"
                   />
                   <TextField
@@ -156,14 +165,16 @@ function NavBar() {
                 <Button
                   color="error"
                   variant="contained"
-                  onClick={() => setOpenLogin(false)}
+                  onClick={() => {
+                    setOpenLogin(false)
+                    setShowHelper(false)
+                  }}
                 >
                   Cancel
                 </Button>
                 <Button
                   type="submit"
                   variant="contained"
-                  onClick={() => setOpenLogin(false)}
                 >
                   Login
                 </Button>
