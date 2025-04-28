@@ -16,12 +16,18 @@ const db = mysql.createConnection({
     database: "add2cart"
 })
 
+// Updated CRUD endpoints to include mobile number, email, address, and gender fields in the `user-accounts` table.
+
 app.post("/register/user-create", (req, res) => {
-    const sql = "INSERT INTO `user-accounts` (`name`,`password`,`status`) VALUES (?, ?, ?)";
+    const sql = "INSERT INTO `user-accounts` (`name`, `password`, `status`, `mobile`, `email`, `address`, `gender`) VALUES (?, ?, ?, ?, ?, ?, ?)";
     const values = [
         req.body.name,
         req.body.password,
-        'inactive'
+        'inactive',
+        req.body.mobile,
+        req.body.email,
+        req.body.address,
+        req.body.gender
     ];
     db.query(sql, values, (err, result) => {
         if (err) {
@@ -57,35 +63,38 @@ app.post("/search-results/:val", (req, res) =>{
     })
 })
 
-app.post("/view-users", (req, res) =>{
-    const sql = "SELECT * FROM `user-accounts`"
+app.post("/view-users", (req, res) => {
+    const sql = "SELECT `id`, `name`, `mobile`, `email`, `address`, `gender`, `status` FROM `user-accounts`";
     db.query(sql, (err, result) => {
-        if (err) return res.json({message : "Error Fetching all users"})
-        return res.json(result)
-    })
-})
+        if (err) return res.json({ message: "Error Fetching all users" });
+        return res.json(result);
+    });
+});
 
-app.post("/user-profile/:id", (req, res) =>{
-    const sql = "SELECT * FROM `user-accounts` WHERE `id` = ?"
+app.post("/user-profile/:id", (req, res) => {
+    const sql = "SELECT `id`, `name`, `mobile`, `email`, `address`, `gender`, `status` FROM `user-accounts` WHERE `id` = ?";
+    db.query(sql, req.params.id, (err, result) => {
+        if (err) return res.json({ message: "Error fetching user profile" });
+        return res.json(result);
+    });
+});
 
-    db.query(sql,req.params.id, (err, result) =>{
-        if (err) return ({message : "Error fetching Search Results"})
-        return res.json(result)
-    })
-})
-
-app.put("/update-user/:id", (req, res) =>{
-    const id = req.params.id
-    const sql = "UPDATE `user-accounts` SET `name` = ? WHERE `id` = ?"
+app.put("/update-user/:id", (req, res) => {
+    const id = req.params.id;
+    const sql = "UPDATE `user-accounts` SET `name` = ?, `mobile` = ?, `email` = ?, `address` = ?, `gender` = ? WHERE `id` = ?";
     const values = [
         req.body.name,
+        req.body.mobile,
+        req.body.email,
+        req.body.address,
+        req.body.gender,
         id
-    ]
-    db.query(sql, values, (err, result) =>{
-        if (err) res.json({message : "Error Updating the user details"})
-        return res.json({success : "Successfully Update the user details"})
-    })
-})
+    ];
+    db.query(sql, values, (err, result) => {
+        if (err) return res.json({ message: "Error Updating the user details" });
+        return res.json({ success: "Successfully Updated the user details" });
+    });
+});
 
 app.delete("/delete-user/:id", (req, res) =>{
     const sql = "DELETE FROM `user-accounts` WHERE `id` = ?"

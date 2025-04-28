@@ -22,6 +22,9 @@ function NavBar() {
   type User = {
     name: string;
     email: string;
+    mobile: string;
+    address: string;
+    gender: string;
     password: string;
     cpassword: string;
   };
@@ -38,6 +41,9 @@ function NavBar() {
   const [values, setValues] = useState<User>({
     name: "",
     email: "",
+    mobile: "",
+    address: "",
+    gender: "",
     password: "",
     cpassword: "",
   });
@@ -63,7 +69,7 @@ function NavBar() {
     e.preventDefault();
     axios.post("/register/user-create", values).then((res) => {
       window.location.reload();
-    });
+    })
   };
 
   const navStyle = {
@@ -207,6 +213,28 @@ function NavBar() {
                     onChange={(e) => {
                       setValues({ ...values, cpassword: e.target.value });
                     }}
+                  />
+                  <TextField
+                    label="Address"
+                    required
+                    onChange={(e) =>
+                      setValues({ ...values, address: e.target.value })
+                    }
+                  />
+                  <TextField
+                    label="Gender"
+                    required
+                    onChange={(e) =>
+                      setValues({ ...values, gender: e.target.value })
+                    }
+                  />
+                  <TextField
+                    label="Mobile No"
+                    required
+                    type="tel"
+                    onChange={(e) =>
+                      setValues({ ...values, mobile: e.target.value })
+                    }
                   />
                 </Stack>
               </DialogContent>
