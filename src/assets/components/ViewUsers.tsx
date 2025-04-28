@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import PersonIcon from "@mui/icons-material/Person";
 
 function ViewUsers() {
   type Results = {
@@ -181,10 +182,9 @@ function ViewUsers() {
 
   const handleUpdateUser = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    axios.put("/update-user", selectedUser)
-    .then((res) =>{
-      window.location.reload()
-    })
+    axios.put("/update-user", selectedUser).then((res) => {
+      window.location.reload();
+    });
   };
   return (
     <>
@@ -193,7 +193,10 @@ function ViewUsers() {
         sx={{ justifyContent: "center", marginLeft: "5%", padding: "1%" }}
       >
         <Typography variant="h5" color="initial">
-          View All Users
+          <Box display="flex" alignItems="center">
+            <PersonIcon/>
+            View All Users
+          </Box>
         </Typography>
 
         {/* Display Users */}
@@ -206,8 +209,17 @@ function ViewUsers() {
                 margin: "10px",
               }}
             >
-              <Stack key={users.id}>
+              <Stack key={users.id} direction="row" spacing={2}>
+                <Typography sx={{ width: "150px", fontWeight: "bold" }}>
+                  Fullname:
+                </Typography>
                 <Typography>{users.name}</Typography>
+              </Stack>
+              <Stack key={`${users.id}-email`} direction="row" spacing={2}>
+                <Typography sx={{ width: "150px", fontWeight: "bold" }}>
+                  Email Address:
+                </Typography>
+                <Typography>{users.email}</Typography>
               </Stack>
               <Stack direction="row" justifyContent="flex-end" spacing={2}>
                 <Button
@@ -259,10 +271,17 @@ function ViewUsers() {
           },
         }}
       >
-        <DialogTitle id="view-user-dialog">User Profile</DialogTitle>
+        <DialogTitle id="view-user-dialog">
+          <Box display="flex" alignItems="center">
+            <PersonIcon sx={{ marginRight: "10px" }} /> User Profile
+          </Box>
+        </DialogTitle>
         <DialogContent>
           <FormControlLabel
-            label="Update User"
+            label={
+              <Typography sx={{ fontSize: "18px" }}>Update User</Typography>
+            }
+            sx={{ marginBottom: "10px" }}
             control={
               <Switch
                 value=""
