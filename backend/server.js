@@ -18,6 +18,7 @@ const db = mysql.createConnection({
 
 // Updated CRUD endpoints to include mobile number, email, address, and gender fields in the `user-accounts` table.
 
+// Endpoint to register a new user account
 app.post("/register/user-create", (req, res) => {
     const sql = "INSERT INTO `user-accounts` (`name`, `password`, `status`, `mobile`, `email`, `address`, `gender`) VALUES (?, ?, ?, ?, ?, ?, ?)";
     const values = [
@@ -38,6 +39,7 @@ app.post("/register/user-create", (req, res) => {
     });
 });
 
+// Endpoint to handle user login
 app.post("/login", (req, res) =>{
     const sql = "SELECT * FROM `user-accounts` WHERE `name` = ? AND `password` = ?"
     const values = [
@@ -54,6 +56,7 @@ app.post("/login", (req, res) =>{
     })
 })
 
+// Endpoint to fetch search results based on a partial name match
 app.post("/search-results/:val", (req, res) =>{
     const sql = "SELECT * FROM `user-accounts` WHERE name LIKE CONCAT('%', ?, '%')"
 
@@ -63,14 +66,16 @@ app.post("/search-results/:val", (req, res) =>{
     })
 })
 
+// Endpoint to fetch all user accounts
 app.post("/view-users", (req, res) => {
-    const sql = "SELECT `id`, `name`, `mobile`, `email`, `address`, `gender`, `status` FROM `user-accounts`";
+    const sql = "SELECT `id`, `name`, `mobile`, `email`, `address`, `gender`, `status`, `password` FROM `user-accounts`";
     db.query(sql, (err, result) => {
         if (err) return res.json({ message: "Error Fetching all users" });
         return res.json(result);
     });
 });
 
+// Endpoint to fetch a specific user's profile by ID
 app.post("/user-profile/:id", (req, res) => {
     const sql = "SELECT `id`, `name`, `mobile`, `email`, `address`, `gender`, `status` FROM `user-accounts` WHERE `id` = ?";
     db.query(sql, req.params.id, (err, result) => {
@@ -79,23 +84,25 @@ app.post("/user-profile/:id", (req, res) => {
     });
 });
 
-app.put("/update-user/:id", (req, res) => {
-    const id = req.params.id;
-    const sql = "UPDATE `user-accounts` SET `name` = ?, `mobile` = ?, `email` = ?, `address` = ?, `gender` = ? WHERE `id` = ?";
+// Endpoint to update a user's details by ID
+app.put("/update-user/", (req, res) => {
+    const sql = "UPDATE `user-accounts` SET `name`= ?,`email`= ?,`gender`= ?,`address`= ?,`mobile`= ?,`password`= ? WHERE `id` = ?"
     const values = [
         req.body.name,
-        req.body.mobile,
         req.body.email,
-        req.body.address,
         req.body.gender,
-        id
-    ];
-    db.query(sql, values, (err, result) => {
-        if (err) return res.json({ message: "Error Updating the user details" });
-        return res.json({ success: "Successfully Updated the user details" });
-    });
+        req.body.address,
+        req.body.mobile,
+        req.body.password,
+        req.body.id
+    ]
+    db.query(sql, values, (err, result) =>{
+        if (err) return res.json({message : "Error Updating User Profile"})
+        return res.json({success : "Successfully Updated User Profile"})
+    })
 });
 
+// Endpoint to delete a user account by ID
 app.delete("/delete-user/:id", (req, res) =>{
     const sql = "DELETE FROM `user-accounts` WHERE `id` = ?"
     db.query(sql, req.params.id, (err, result) => {

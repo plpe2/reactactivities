@@ -7,37 +7,50 @@ import {
   DialogTitle,
   DialogContent,
   DialogContentText,
-  DialogActions, Accordion, AccordionSummary, AccordionDetails,
+  DialogActions,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Switch,
+  FormControlLabel,
+  TextField,
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
 function ViewUsers() {
   type Results = {
-    id: number,
-    name: string,
-    password: string,
-    email: string,
-    gender: string,
-    address: string,
-    mobile: string,
-    status: string
+    id: number;
+    name: string;
+    password: string;
+    email: string;
+    gender: string;
+    address: string;
+    mobile: string;
+    status: string;
   };
 
   type UserType = {
     id: number | null;
-    name: string,
-    password: string,
-    email: string,
-    gender: string,
-    address: string,
-    mobile: string,
-    status: string,
+    name: string;
+    password: string;
+    email: string;
+    gender: string;
+    address: string;
+    mobile: string;
+    status: string;
   };
 
+  const [updatestate, setUpdateState] = useState(false);
+
+  // State to hold the dialog for viewing a user's profile
   const [viewProfile, setViewProfile] = useState(false);
 
+  // State to hold the dialog for deleting a user
   const [deleteShow, setDeleteShow] = useState(false);
+  const [resultDelete, setResultDelete] = useState(false);
+
+  // State to hold the selected user for displaying profile
   const [selectedUser, setSelectedUser] = useState<UserType>({
     id: null,
     name: "",
@@ -46,14 +59,14 @@ function ViewUsers() {
     gender: "",
     address: "",
     mobile: "",
-    status: ""
+    status: "",
   });
-  
-  const [resultDelete, setResultDelete] = useState(false);
 
+  // State to hold the results from User Deletion
   const [results, setResults] = useState<Results[]>([]);
   const [countdown, setCountdown] = useState(3);
 
+  // API call to get all users
   useEffect(() => {
     axios.post("/view-users").then((res) => {
       setResults(res.data);
@@ -61,6 +74,8 @@ function ViewUsers() {
     });
   }, []);
 
+  // API call to delete a user
+  // This function is called when the delete button is clicked
   const handledeleteUser = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     axios.delete(`/delete-user/${selectedUser.id}`).then((res) => {
@@ -78,6 +93,99 @@ function ViewUsers() {
       }, 1000);
     });
   };
+
+  const updateUserView = () => {
+    if (updatestate) {
+      return (
+        <Stack spacing={2}>
+          <TextField
+            label="Name"
+            variant="outlined"
+            fullWidth
+            value={selectedUser.name}
+            onChange={(e) =>
+              setSelectedUser({ ...selectedUser, name: e.target.value })
+            }
+          />
+          <TextField
+            label="Email"
+            variant="outlined"
+            fullWidth
+            value={selectedUser.email}
+            onChange={(e) =>
+              setSelectedUser({ ...selectedUser, email: e.target.value })
+            }
+          />
+          <TextField
+            label="Address"
+            variant="outlined"
+            fullWidth
+            value={selectedUser.address}
+            onChange={(e) =>
+              setSelectedUser({ ...selectedUser, address: e.target.value })
+            }
+          />
+          <TextField
+            label="Gender"
+            variant="outlined"
+            fullWidth
+            value={selectedUser.gender}
+            onChange={(e) =>
+              setSelectedUser({ ...selectedUser, gender: e.target.value })
+            }
+          />
+          <TextField
+            label="Mobile"
+            variant="outlined"
+            fullWidth
+            value={selectedUser.mobile}
+            onChange={(e) =>
+              setSelectedUser({ ...selectedUser, mobile: e.target.value })
+            }
+          />
+          <TextField
+            label="Password"
+            variant="outlined"
+            value={selectedUser.password}
+            onChange={(e) =>
+              setSelectedUser({ ...selectedUser, password: e.target.value })
+            }
+          />
+        </Stack>
+      );
+    } else {
+      return (
+        <Box>
+          <Typography variant="body1" sx={{ marginBottom: "10px" }}>
+            <strong>Name:</strong> {selectedUser.name}
+          </Typography>
+          <Typography variant="body1" sx={{ marginBottom: "10px" }}>
+            <strong>Email:</strong> {selectedUser.email}
+          </Typography>
+          <Typography variant="body1" sx={{ marginBottom: "10px" }}>
+            <strong>Address:</strong> {selectedUser.address}
+          </Typography>
+          <Typography variant="body1" sx={{ marginBottom: "10px" }}>
+            <strong>Gender:</strong> {selectedUser.gender}
+          </Typography>
+          <Typography variant="body1" sx={{ marginBottom: "10px" }}>
+            <strong>Mobile:</strong> {selectedUser.mobile}
+          </Typography>
+          <Typography variant="body1" sx={{ marginBottom: "10px" }}>
+            <strong>Password:</strong> {selectedUser.password}
+          </Typography>
+        </Box>
+      );
+    }
+  };
+
+  const handleUpdateUser = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    axios.put("/update-user", selectedUser)
+    .then((res) =>{
+      window.location.reload()
+    })
+  };
   return (
     <>
       <Box
@@ -92,7 +200,7 @@ function ViewUsers() {
         {results.map((users) => (
           <div key={users.id}>
             <Stack
-              sx={{ 
+              sx={{
                 padding: "50px",
                 backgroundColor: "#DAE3FF",
                 margin: "10px",
@@ -102,21 +210,22 @@ function ViewUsers() {
                 <Typography>{users.name}</Typography>
               </Stack>
               <Stack direction="row" justifyContent="flex-end" spacing={2}>
-                <Button 
-                  variant="contained" 
+                <Button
+                  variant="contained"
                   onClick={() => {
-                    setViewProfile(true)
-                    setSelectedUser({ 
-                      id: users.id, 
-                      name: users.name, 
-                      password: users.password, 
-                      email: users.email, 
-                      gender: users.gender, 
-                      address: users.address, 
-                      mobile: users.mobile, 
-                      status: users.status 
+                    setViewProfile(true);
+                    setSelectedUser({
+                      id: users.id,
+                      name: users.name,
+                      password: users.password,
+                      email: users.email,
+                      gender: users.gender,
+                      address: users.address,
+                      mobile: users.mobile,
+                      status: users.status,
                     });
-                  }}>
+                  }}
+                >
                   View Profile
                 </Button>
                 <Button
@@ -124,61 +233,66 @@ function ViewUsers() {
                   color="error"
                   onClick={() => {
                     setDeleteShow(true);
-                    setSelectedUser({ 
-                      id: users.id, 
-                      name: users.name, 
-                      password: users.password, 
-                      email: users.email, 
-                      gender: users.gender, 
-                      address: users.address, 
-                      mobile: users.mobile, 
-                      status: users.status 
+                    setSelectedUser({
+                      ...selectedUser,
+                      id: users.id,
                     });
                   }}
                 >
                   Delete Profile
-                </Button>   
+                </Button>
               </Stack>
             </Stack>
           </div>
         ))}
       </Box>
 
-      <Dialog 
-        open={viewProfile} 
-        onClose={() => setViewProfile(false)} 
+      <Dialog
+        open={viewProfile}
+        onClose={() => setViewProfile(false)}
         aria-labelledby="view-user-dialog"
         PaperProps={{
           sx: {
-        width: '400px',
-        height: 'auto',
-        padding: '20px',
+            width: "400px",
+            height: "auto",
+            padding: "20px",
           },
         }}
       >
-        <DialogTitle id="view-user-dialog">
-          User Profile
-        </DialogTitle>
+        <DialogTitle id="view-user-dialog">User Profile</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-        <Typography variant="body1" sx={{ marginBottom: '10px' }}><strong>Name:</strong> {selectedUser.name}</Typography>
-        <Typography variant="body1" sx={{ marginBottom: '10px' }}><strong>Email:</strong> {selectedUser.email}</Typography>
-        <Typography variant="body1" sx={{ marginBottom: '10px' }}><strong>Address:</strong> {selectedUser.address}</Typography>
-        <Typography variant="body1" sx={{ marginBottom: '10px' }}><strong>Gender:</strong> {selectedUser.gender}</Typography>
-        <Typography variant="body1" sx={{ marginBottom: '10px' }}><strong>Mobile:</strong> {selectedUser.mobile}</Typography>
-          </DialogContentText>
+          <FormControlLabel
+            label="Update User"
+            control={
+              <Switch
+                value=""
+                checked={updatestate}
+                onChange={() => setUpdateState(!updatestate)}
+              />
+            }
+          />
+          {updateUserView()}
         </DialogContent>
         <DialogActions>
+          <form onSubmit={handleUpdateUser}>
+            <Button
+              variant="contained"
+              color="success"
+              disabled={!updatestate}
+              type="submit"
+            >
+              Update
+            </Button>
+          </form>
           <Button
-        variant="contained"
-        onClick={() => setViewProfile(false)}
-        color="primary"
+            variant="contained"
+            onClick={() => setViewProfile(false)}
+            color="primary"
           >
-        Cancel
+            Cancel
           </Button>
         </DialogActions>
       </Dialog>
-
 
       {/* Confirmation Dialog */}
       <Dialog
@@ -189,8 +303,8 @@ function ViewUsers() {
         <DialogTitle>Delete permanently this user?</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            By Clicking Delete, the User: {selectedUser.name} will be permanently
-            deleted
+            By Clicking Delete, the User: {selectedUser.name} will be
+            permanently deleted
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -204,7 +318,16 @@ function ViewUsers() {
             color="primary"
             onClick={() => {
               setDeleteShow(false);
-              setSelectedUser({ id: null, name: "", password: "", email: "", gender: "", address: "", mobile: "", status: "" });
+              setSelectedUser({
+                id: null,
+                name: "",
+                password: "",
+                email: "",
+                gender: "",
+                address: "",
+                mobile: "",
+                status: "",
+              });
             }}
           >
             Cancel
