@@ -62,6 +62,11 @@ function NavBar() {
 
   const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!loginValues.email || !emailRegex.test(loginValues.email)) {
+      setShowHelper(true);
+      return;
+    }
     axios.post("/login", loginValues).then((res) => {
       console.log(res);
     });
@@ -71,7 +76,7 @@ function NavBar() {
     e.preventDefault();
     axios.post("/register/user-create", values).then((res) => {
       window.location.reload();
-    })
+    });
   };
 
   const navStyle = {
@@ -94,22 +99,29 @@ function NavBar() {
         <Box sx={{ flexGrow: 1 }} />
 
         {/* Search bar */}
-        <Stack direction="row" height="50px">
-          <form onSubmit={handleSearchSubmit}>
+        <Stack direction="row" height="50px" sx={{ marginRight: "10px" }}>
+          <form
+            onSubmit={handleSearchSubmit}
+            style={{ display: "flex", alignItems: "center" }}
+          >
             <TextField
               size="small"
               onChange={(e) => setSearchValue(e.target.value)}
               required
-            >
-              Search
-            </TextField>
-            <IconButton
-              type="submit"
-              aria-label=""
-              sx={{ backgroundColor: "white", marginRight: "20px" }}
-            >
-              <SearchIcon />
-            </IconButton>
+              placeholder="Search..."
+              sx={{
+                backgroundColor: "white",
+                borderRadius: "5px",
+                input: { color: "black" },
+              }}
+              InputProps={{
+                endAdornment: (
+                  <IconButton type="submit" aria-label="search">
+                    <SearchIcon />
+                  </IconButton>
+                ),
+              }}
+            />
           </form>
         </Stack>
 
@@ -130,8 +142,8 @@ function NavBar() {
           <Dialog
             open={openLogin}
             onClose={() => {
-              setOpenLogin(false)
-              setShowHelper(false)
+              setOpenLogin(false);
+              setShowHelper(false);
             }}
             aria-labelledby="login-dialog"
           >
@@ -141,9 +153,21 @@ function NavBar() {
                 <DialogContentText></DialogContentText>
                 <Stack spacing={2}>
                   <TextField
-                    onBlur={() => {if (!loginValues.email) {setShowHelper(true)}}}
-                    onFocus={() => {setShowHelper(false);}}
-                    helperText={showHelper ? "Email is required" : ''}
+                    onBlur={() => {
+                      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                      if (
+                        !loginValues.email ||
+                        !emailRegex.test(loginValues.email)
+                      ) {
+                        setShowHelper(true);
+                      }
+                    }}
+                    onFocus={() => {
+                      setShowHelper(false);
+                    }}
+                    helperText={
+                      showHelper ? "Please enter a valid email address" : ""
+                    }
                     onChange={(e) =>
                       setLoginValues({ ...loginValues, email: e.target.value })
                     }
@@ -166,16 +190,13 @@ function NavBar() {
                   color="error"
                   variant="contained"
                   onClick={() => {
-                    setOpenLogin(false)
-                    setShowHelper(false)
+                    setOpenLogin(false);
+                    setShowHelper(false);
                   }}
                 >
                   Cancel
                 </Button>
-                <Button
-                  type="submit"
-                  variant="contained"
-                >
+                <Button type="submit" variant="contained">
                   Login
                 </Button>
               </DialogActions>

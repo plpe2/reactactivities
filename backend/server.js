@@ -51,7 +51,7 @@ app.post("/login", (req, res) =>{
         if(result.length > 0){
             return res.json("Login Successfully")
         }else{
-            return res.json("No Record")
+            return res.json({message : "No Record"})
         }
     })
 })

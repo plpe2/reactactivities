@@ -66,6 +66,7 @@ const Sidebar = () => {
       );
     }
   };
+  
   return (
     <Drawer
       variant="permanent"
