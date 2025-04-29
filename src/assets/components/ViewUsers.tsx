@@ -19,6 +19,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import PersonIcon from "@mui/icons-material/Person";
 import PeopleIcon from '@mui/icons-material/People';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import EditIcon from '@mui/icons-material/Edit';
 
 function ViewUsers() {
   type Results = {
@@ -195,7 +197,7 @@ function ViewUsers() {
       >
         <Typography variant="h5" color="initial">
           <Box display="flex" alignItems="center">
-            <PeopleIcon/>
+            <PeopleIcon sx={{marginRight: "10px"}}/>
             View All Users
           </Box>
         </Typography>
@@ -225,6 +227,7 @@ function ViewUsers() {
               <Stack direction="row" justifyContent="flex-end" spacing={2}>
                 <Button
                   variant="contained"
+                  startIcon={<PersonIcon />}
                   onClick={() => {
                     setViewProfile(true);
                     setSelectedUser({
@@ -244,6 +247,7 @@ function ViewUsers() {
                 <Button
                   variant="contained"
                   color="error"
+                  startIcon={<DeleteForeverIcon />}
                   onClick={() => {
                     setDeleteShow(true);
                     setSelectedUser({
@@ -277,10 +281,13 @@ function ViewUsers() {
             <PersonIcon sx={{ marginRight: "10px" }} /> User Profile
           </Box>
         </DialogTitle>
-        <DialogContent>
+        <DialogContent sx={{marginTop: "-10px"}}>
           <FormControlLabel
             label={
-              <Typography sx={{ fontSize: "18px" }}>Update User</Typography>
+              <Box display="flex" alignItems="center">
+                <EditIcon sx={{ marginRight: "10px"}}/>
+                <Typography sx={{ fontSize: "18px" }}>Update User</Typography>
+              </Box>
             }
             sx={{ marginBottom: "10px" }}
             control={

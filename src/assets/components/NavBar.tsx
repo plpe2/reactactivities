@@ -22,6 +22,8 @@ import { Link } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import React, { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
+import LoginIcon from "@mui/icons-material/Login";
+import EditDocumentIcon from '@mui/icons-material/EditDocument';
 import axios from "axios";
 
 function NavBar() {
@@ -176,12 +178,13 @@ function NavBar() {
 
         <Stack direction="row" spacing={2} className="Navbar">
           {/* Two buttons on right side*/}
-          <Button variant="contained" onClick={() => setOpenLogin(true)}>
+          <Button variant="contained" startIcon={<LoginIcon/>} onClick={() => setOpenLogin(true)}>
             Login
           </Button>
           <Button
             variant="contained"
             color="success"
+            startIcon={<EditDocumentIcon />}
             onClick={() => setOpenRegister(true)}
           >
             Register
@@ -196,7 +199,12 @@ function NavBar() {
             }}
             aria-labelledby="login-dialog"
           >
-            <DialogTitle>Login</DialogTitle>
+            <DialogTitle>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <LoginIcon sx={{ marginRight: "10px" }} />
+                Login
+              </Box>
+            </DialogTitle>
             <form onSubmit={handleLoginSubmit}>
               <DialogContent>
                 <DialogContentText></DialogContentText>
@@ -263,6 +271,7 @@ function NavBar() {
               setShowPassHelper(false);
               setShowCpassHelper(false);
               setShowAddressHelper(false);
+              setShowGenderHelper(false);
               setShowMobileHelper(false);
             }}
             aria-labelledby="register-dialog"
@@ -274,7 +283,12 @@ function NavBar() {
               },
             }}
           >
-            <DialogTitle>Registration</DialogTitle>
+            <DialogTitle>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <EditDocumentIcon sx={{ marginRight: "10px" }} />
+                Register
+              </Box>
+            </DialogTitle>
             <DialogContentText>
               <Box sx={{ marginLeft: "20px" }}>
                 - Fields marked with <span style={{ color: "red" }}>*</span> are
@@ -391,25 +405,27 @@ function NavBar() {
                     error={showAddressHelper}
                   />
                   <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label" error={showGenderHelper}>
+                    <InputLabel
+                      id="demo-simple-select-label"
+                      error={showGenderHelper}
+                    >
                       Gender*
                     </InputLabel>
                     <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       label="Gender*"
-                      onChange={(e: SelectChangeEvent<string>) =>
-                        {
-                          setShowGenderHelper(false)
-                          setValues({ ...values, gender: e.target.value })}
-                      }
+                      onChange={(e: SelectChangeEvent<string>) => {
+                        setShowGenderHelper(false);
+                        setValues({ ...values, gender: e.target.value });
+                      }}
                       error={showGenderHelper}
                     >
                       <MenuItem value="Male">Male</MenuItem>
                       <MenuItem value="Female">Female</MenuItem>
                     </Select>
                     {showGenderHelper && (
-                      <FormHelperText sx={{color: "red"}}>
+                      <FormHelperText sx={{ color: "red" }}>
                         Please select your gender
                       </FormHelperText>
                     )}
@@ -444,6 +460,7 @@ function NavBar() {
                     setShowPassHelper(false);
                     setShowCpassHelper(false);
                     setShowAddressHelper(false);
+                    setShowGenderHelper(false);
                     setShowMobileHelper(false);
                   }}
                 >
