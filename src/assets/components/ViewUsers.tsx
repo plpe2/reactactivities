@@ -18,6 +18,7 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 import PersonIcon from "@mui/icons-material/Person";
+import PeopleIcon from '@mui/icons-material/People';
 
 function ViewUsers() {
   type Results = {
@@ -194,7 +195,7 @@ function ViewUsers() {
       >
         <Typography variant="h5" color="initial">
           <Box display="flex" alignItems="center">
-            <PersonIcon/>
+            <PeopleIcon/>
             View All Users
           </Box>
         </Typography>

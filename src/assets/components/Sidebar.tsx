@@ -14,7 +14,7 @@ import {
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Link } from "react-router-dom";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import PersonIcon from "@mui/icons-material/Person";
+import PeopleIcon from '@mui/icons-material/People';
 
 const Sidebar = () => {
   const [drawerWidth, setDrawerWidth] = useState(200);
@@ -38,7 +38,7 @@ const Sidebar = () => {
           <ListItem disablePadding>
             <ListItemButton component={Link} to="/view-users">
               <Box display="flex" alignItems="center">
-                <PersonIcon sx={{ marginRight: "5px" }} />
+                <PeopleIcon sx={{ marginRight: "5px" }} />
                 <ListItemText primary="View Users" />
               </Box>
             </ListItemButton>
@@ -58,7 +58,7 @@ const Sidebar = () => {
           <ListItem disablePadding>
             <ListItemButton component={Link} to="/view-users">
               <Box display="flex" alignItems="center">
-                <PersonIcon sx={{ marginRight: "5px", fontSize: "40px" }} />
+                <PeopleIcon sx={{ marginRight: "5px", fontSize: "40px" }} />
               </Box>
             </ListItemButton>
           </ListItem>
