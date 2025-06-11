@@ -79,7 +79,6 @@ function NavBar() {
   const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const mobileFormat = /[0-9]{10}/;
     if (!loginValues.email || !emailRegex.test(loginValues.email)) {
       setShowHelper(true);
       return;
